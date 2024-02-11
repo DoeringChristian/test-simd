@@ -6,7 +6,7 @@ use std::simd::u8x32;
 
 const N: usize = 32;
 
-fn find_next_u8(bytes: &[u8], chr: u8) -> Option<usize> {
+fn find_next_u8simd(bytes: &[u8], chr: u8) -> Option<usize> {
     let (prefix, middle, suffix) = bytes.as_simd::<32>();
 
     let mut pos = 0;
@@ -35,6 +35,32 @@ pub struct SimdSearch<'a> {
     chr: u8,
 }
 impl<'a> Iterator for SimdSearch<'a> {
+    type Item = &'a str;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let bytes = self.str.as_bytes();
+
+        let idx = find_next_u8simd(bytes, self.chr)?;
+
+        self.str = unsafe { std::str::from_utf8_unchecked(&bytes[idx + 1..]) };
+
+        unsafe { Some(std::str::from_utf8_unchecked(&bytes[..idx])) }
+    }
+}
+
+pub fn lines<'a>(str: &'a str) -> Search<'a> {
+    Search { str, chr: b'\n' }
+}
+
+fn find_next_u8(bytes: &[u8], chr: u8) -> Option<usize> {
+    bytes.iter().position(|elem| *elem == chr)
+}
+
+pub struct Search<'a> {
+    str: &'a str,
+    chr: u8,
+}
+impl<'a> Iterator for Search<'a> {
     type Item = &'a str;
 
     fn next(&mut self) -> Option<Self::Item> {

@@ -1,5 +1,5 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use lines::{self, lines_simd};
+use lines::{lines, lines_simd};
 
 pub fn criterion_benchmark(c: &mut Criterion) {
     let string = std::fs::read_to_string("data/9_Swamp_S2B_ITS2_2019_minq7.fastq").unwrap();
@@ -17,6 +17,14 @@ pub fn criterion_benchmark(c: &mut Criterion) {
         b.iter(|| {
             v.clear();
             let lines = lines_simd(&string);
+            v.extend(lines);
+        })
+    });
+    let mut v = vec![];
+    c.bench_function("lines naive", |b| {
+        b.iter(|| {
+            v.clear();
+            let lines = lines(&string);
             v.extend(lines);
         })
     });
