@@ -1,5 +1,6 @@
 use criterion::{
-    black_box, criterion_group, criterion_main, Criterion, PlotConfiguration, SamplingMode,
+    black_box, criterion_group, criterion_main, Criterion, PlotConfiguration, PlottingBackend,
+    SamplingMode,
 };
 use lines::{lines, lines_simd};
 
