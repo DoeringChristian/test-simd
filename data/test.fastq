@@ -1,0 +1,4 @@
+@SEQ_ID                                  # New read head + read_id
+GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAA... # DNA sequence
++                                        # Quality header + id (optional)
+!''*((((***+))%%%++)(%%%%).1***-+*'')... # Phred quality score
