@@ -1,4 +1,6 @@
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{
+    black_box, criterion_group, criterion_main, Criterion, PlotConfiguration, SamplingMode,
+};
 use lines::{lines, lines_simd};
 
 macro_rules! simd {
@@ -41,6 +43,8 @@ pub fn criterion_benchmark(c: &mut Criterion) {
     });
 
     simd!(group, string, 2, 4, 8, 16, 32, 64);
+
+    group.finish();
 }
 
 criterion_group!(benches, criterion_benchmark);
