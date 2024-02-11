@@ -15,6 +15,7 @@ pub fn criterion_benchmark(c: &mut Criterion) {
     let mut v = vec![];
     c.bench_function("lines simd", |b| {
         b.iter(|| {
+            v.clear();
             let lines = lines_simd(&string);
             v.extend(lines);
         })
