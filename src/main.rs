@@ -10,7 +10,7 @@ fn main() {
 
     let lines = string.lines();
 
-    let lines_simd = lines_simd(&string);
+    let lines_simd = lines_simd::<32>(&string);
 
     let lines = lines.collect::<Vec<_>>();
     // let lines_simd = lines_simd.collect::<Vec<_>>();
